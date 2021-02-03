@@ -22,8 +22,8 @@ navbar-width= 17rem;
     flex-grow: 1;
     flex-shrink: 1;
     overflow-y: auto;
-    height: 100vh;
-    max-height: "calc(100vh - %s - 0.2rem)" % navbar-height;
+    //height: 100vh;
+    //max-height: "calc(100vh - %s - 0.2rem)" % navbar-height;
     display: flex;
     align-items: stretch;
     > div {
@@ -54,6 +54,10 @@ navbar-width= 17rem;
         overflow-y: auto;
     }
 
+    .ogs-nav-logo-container {
+        height: 2rem;
+    }
+
     ul {
         display: inline-block;
         list-style-type: none;
@@ -65,13 +69,54 @@ navbar-width= 17rem;
     }
 }
 
+#nav-top-more, #nav-top-dropdowns, #nav-top-original {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+#nav-top-more #NavBar,
+#nav-top-dropdowns #NavBar
+{
+
+    height: navbar-height;
+    a {
+        padding: 0 1rem;
+        margin: 0;
+        &:hover {
+            text-decoration: none;
+            background-color: hsla(0, 0, 50, 0.15)
+        }
+    }
+
+    .ogs-nav-logo-container {
+        height: navbar-height;
+    }
+    .left a {
+        line-height: navbar-height;
+    }
+}
+
+#nav-original #NavBar {
+    height: 2rem;
+
+    .ogs-nav-logo-container {
+        height: 2rem;
+    }
+    .left a {
+        line-height: 2rem;
+    }
+}
+
+
+
 #nav-original #NavBar,
 #nav-top-more #NavBar,
 #nav-top-dropdowns #NavBar
 {
     display: flex;
-    margin-bottom: 1rem;
-    height: navbar-height;
+    //margin-bottom: 1rem;
     user-select: none;
     themed background-color navbar-background-color
 
@@ -99,7 +144,6 @@ navbar-width= 17rem;
         display: flex;
         align-items: center;
         align-content: center;
-        height: navbar-height;
         padding-left: 0.5rem;
         padding-right: 0.5rem;
         margin-right: 1rem;
@@ -118,21 +162,11 @@ navbar-width= 17rem;
         align-items: center;
         a {
             display: inline-block;
-            line-height: navbar-height;
             padding-left: 0.5rem;
             padding-right: 0.5rem;
             margin-right: 0.5rem;
         }
         overflow: hidden;
-    }
-
-     .nav-items a {
-        padding: 0 1rem;
-        margin: 0;
-        &:hover {
-            text-decoration: none;
-            background-color: hsla(0, 0, 50, 0.15)
-        }
     }
 
     .right {
@@ -381,7 +415,6 @@ navbar-width= 17rem;
         display: flex;
         align-items: center;
         align-content: center;
-        height: navbar-height;
         padding-left: 0.5rem;
         padding-right: 0.5rem;
         margin-right: 1rem;
