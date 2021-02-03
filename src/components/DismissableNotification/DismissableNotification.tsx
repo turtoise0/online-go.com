@@ -16,6 +16,7 @@
  */
 
 import * as React from "react";
+import { useState } from "react";
 import * as data from "data";
 
 
@@ -25,29 +26,24 @@ export interface DismissableNotificationInterface {
     children: any;
 }
 
-export class DismissableNotification extends React.Component<DismissableNotificationInterface, any> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            dismissed: data.get(`dismissed.${props.dismissedKey}`, false)
-        };
+export function DismissableNotification(props: DismissableNotificationInterface): JSX.Element {
+    let [dismissed, setDismissed] = useState(data.get(`dismissed.${props.dismissedKey}`, false));
+
+    function dismiss() {
+        data.set(`dismissed.${props.dismissedKey}`, true);
+        setDismissed(true);
     }
 
-    dismiss = () => {
-        data.set(`dismissed.${this.props.dismissedKey}`, true);
-        this.setState({ dismissed: true });
+    if (dismissed) {
+        return null;
     }
 
-    render() {
-        if (this.state.dismissed) {
-            return null;
-        }
+    return (
+        <div className={"DismissableNotification " + (props.className || "")}>
+            <i className='fa fa-times' onClick={dismiss} />
+            {props.children}
+        </div>
+    );
 
-        return (
-            <div className={"DismissableNotification " + (this.props.className || "")}>
-                <i className='fa fa-times' onClick={this.dismiss} />
-                {this.props.children}
-            </div>
-        );
-    }
+
 }
