@@ -2275,7 +2275,6 @@ export class Game extends React.PureComponent<GameProperties, any> {
         const review = !!this.review_id;
 
         return (
-            <div>
              <div className={"Game MainGobanView " + (this.state.zen_mode ? "zen " : "") + this.state.view_mode + " " + (this.state.squashed ? "squashed" : "")}>
                 {this.frag_kb_shortcuts()}
                 <i onClick={this.toggleZenMode} className="leave-zen-mode-button ogs-zen-mode"></i>
@@ -2360,9 +2359,7 @@ export class Game extends React.PureComponent<GameProperties, any> {
                 }
 
                 <div className="align-row-end"></div>
-
              </div>
-            </div>
         );
     }
     frag_cancel_button() {

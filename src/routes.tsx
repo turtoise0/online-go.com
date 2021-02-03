@@ -16,9 +16,11 @@
  */
 
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 
 import * as data from "data";
+import * as preferences from "preferences";
 import {_} from "translate";
 import { browserHistory } from './ogsHistory';
 
@@ -64,19 +66,33 @@ import * as docs from "docs";
 
 
 /*** Layout our main view and routes ***/
-const Main = props => (
-    <div>
-        <ErrorBoundary>
-            <NavBar/>
-        </ErrorBoundary>
-        <ErrorBoundary>
-            <Announcements/>
-        </ErrorBoundary>
-        <ErrorBoundary>
-            {props.children}
-        </ErrorBoundary>
-    </div>
-);
+function Main(props:{ children: JSX.Element }):JSX.Element {
+    let [style, setStyle] = useState(preferences.get("experiment.nav"));
+
+    useEffect(() => {
+        preferences.watch("experiment.nav", setStyle, true);
+        return () => {
+            preferences.unwatch("experiment.nav", setStyle);
+        };
+    }, []);
+
+    return (
+        <div id={`nav-${style}`}>
+            <ErrorBoundary>
+                <NavBar/>
+            </ErrorBoundary>
+            <div id="content-view">
+                <ErrorBoundary>
+                    <Announcements/>
+                </ErrorBoundary>
+                <ErrorBoundary>
+                    {props.children}
+                </ErrorBoundary>
+            </div>
+        </div>
+    );
+}
+
 const PageNotFound = (props, state) => (<div style={{display: "flex", flex: "1", alignItems: "center", justifyContent: "center"}}>{_("Page not found")}</div>);
 const Default = () => (
     data.get("config.user").anonymous

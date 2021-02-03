@@ -102,6 +102,7 @@ let defaults = {
     "chat-subscribe-tournament-chat-unread": true,
     "chat-subscribe-tournament-mentions": true,
 
+    "experiment.nav": "original",
 };
 
 defaults['profanity-filter'][current_language] = true;

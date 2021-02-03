@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 448 512"
+   version="1.1"
+   id="svg935"
+   sodipodi:docname="nav-top-dropdowns.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07, custom)">
+  <metadata
+     id="metadata939">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1492"
+     inkscape:window-height="781"
+     id="namedview937"
+     showgrid="false"
+     inkscape:zoom="1.0019531"
+     inkscape:cx="54.490577"
+     inkscape:cy="221.13933"
+     inkscape:window-x="2010"
+     inkscape:window-y="725"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg935"
+     inkscape:document-rotation="0" />
+  <!-- Font Awesome Pro 5.15.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
+  <defs
+     id="defs929">
+    <style
+       id="style927">.fa-secondary{opacity:.4}</style>
+  </defs>
+  <path
+     style="fill:#999999;fill-opacity:1;stroke:none;stroke-width:2.3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M432 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z"
+     class="fa-primary"
+     id="path933" />
+  <rect
+     style="opacity:0.4;fill:#999999;fill-opacity:1;stroke:none;stroke-width:2.59202;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="rect839"
+     class="fa-secondary"
+     width="444.8963"
+     height="349.43588"
+     x="0.42435491"
+     y="128.1492"
+     ry="0" />
+  <path
+     style="fill:#606060;fill-opacity:1;stroke:none;stroke-width:0.554319;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 62.183622,50.026402 H 31.258887 a 15.462362,0.96167334 0 0 0 -15.462359,0.96168 v 25.00349 a 15.462362,0.96167334 0 0 0 15.462359,0.96168 h 30.924735 a 15.462362,0.96167334 0 0 0 15.46235,-0.96168 v -25.00349 a 15.462362,0.96167334 0 0 0 -15.46235,-0.96168 z"
+     class="fa-primary"
+     id="path947-3-61" />
+  <path
+     style="fill:#606060;fill-opacity:1;stroke:none;stroke-width:0.554319;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 241.28559,50.026392 h -30.92473 a 15.462362,0.96167334 0 0 0 -15.46235,0.96168 v 25.0035 a 15.462362,0.96167334 0 0 0 15.46235,0.96167 h 30.92473 a 15.462362,0.96167334 0 0 0 15.46236,-0.96167 v -25.0035 a 15.462362,0.96167334 0 0 0 -15.46236,-0.96168 z"
+     class="fa-primary"
+     id="path947-3-61-8" />
+  <path
+     style="fill:#606060;fill-opacity:1;stroke:none;stroke-width:0.554319;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 420.38757,50.026392 h -30.92473 a 15.462362,0.96167334 0 0 0 -15.46235,0.96168 v 25.0035 a 15.462362,0.96167334 0 0 0 15.46235,0.96167 h 30.92473 a 15.462362,0.96167334 0 0 0 15.46236,-0.96167 v -25.0035 a 15.462362,0.96167334 0 0 0 -15.46236,-0.96168 z"
+     class="fa-primary"
+     id="path947-3-61-7" />
+  <path
+     style="fill:#606060;fill-opacity:1;stroke:none;stroke-width:1.47901;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 99.280269,75.697896 h -56.37777 a 28.188881,3.7553574 0 0 0 -28.18888,3.75537 v 97.639274 a 28.188881,3.7553574 0 0 0 28.18888,3.75539 h 56.37777 a 28.188881,3.7553574 0 0 0 28.188861,-3.75539 V 79.453266 a 28.188881,3.7553574 0 0 0 -28.188861,-3.75537 z"
+     class="fa-primary"
+     id="path947-3-0" />
+</svg>

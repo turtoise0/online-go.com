@@ -32,7 +32,7 @@ import {SpritePack} from "sfx_sprites";
 import {current_language, setCurrentLanguage, languages} from "translate";
 import {toast} from 'toast';
 import {profanity_regex} from 'profanity_filter';
-import {logout} from 'NavBar';
+import {logout} from 'SignIn';
 import {Flag} from "Flag";
 import {EventEmitter} from 'eventemitter3';
 import {LineText} from 'misc-ui';

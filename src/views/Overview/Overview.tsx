@@ -72,6 +72,8 @@ export function Overview():JSX.Element {
     let [resolved, setResolved] = useState(false as boolean);
     let [show_translation_dialog, setShowTranslationDialog] = useState(show_translation_dialog_default as boolean);
     let [boards_to_move_on, setBoardsToMoveOn] = useState(Object.keys(notification_manager.boards_to_move_on).length);
+    let [nav_style, setNavStyle] = useState(preferences.get("experiment.nav"));
+
 
     function refresh() {
         abort_requests_in_flight("ui/overview");
@@ -97,6 +99,10 @@ export function Overview():JSX.Element {
         return () => {
             notification_manager.event_emitter.off("turn-count", setBoardsToMoveOn);
         };
+    }, []);
+    useEffect(() => {
+        preferences.watch("experiment.nav", setNavStyle);
+        return () => preferences.unwatch("experiment.nav", setNavStyle);
     }, []);
 
 
@@ -153,36 +159,37 @@ export function Overview():JSX.Element {
                         </div>
                     }
                 </div>
-                <div className="right">
-                    <ProfileCard user={user} />
+                {(nav_style === "original") &&
+                    <div className="right">
+                        <ProfileCard user={user} />
 
-                    <div className="overview-categories">
-                        {show_translation_dialog &&
-                            <Card className="translation-dialog">
-                                <FabX onClick={dismissTranslationDialog} />
+                        <div className="overview-categories">
+                            {show_translation_dialog &&
+                                <Card className="translation-dialog">
+                                    <FabX onClick={dismissTranslationDialog} />
 
-                                <div>{_("Hello! Did you know that online-go.com is translated entirely volunteers in the Go community? Because of that, sometimes our translations get behind, like right now. In this language there are some missing translation strings. If you would like to help fix this, click the green button below, and thanks in advance!")}</div>
+                                    <div>{_("Hello! Did you know that online-go.com is translated entirely volunteers in the Go community? Because of that, sometimes our translations get behind, like right now. In this language there are some missing translation strings. If you would like to help fix this, click the green button below, and thanks in advance!")}</div>
 
-                                <a className='btn success' href='https://translate.online-go.com/'>{_("I'll help translate!")}</a>
+                                    <a className='btn success' href='https://translate.online-go.com/'>{_("I'll help translate!")}</a>
 
-                                <button className='btn xs never-show-this-message-button' onClick={neverShowTranslationDialog}>{_("Never show this message")}</button>
-                            </Card>
-                        }
+                                    <button className='btn xs never-show-this-message-button' onClick={neverShowTranslationDialog}>{_("Never show this message")}</button>
+                                </Card>
+                            }
 
-                        <h3><Link to="/tournaments"><i className="fa fa-trophy"></i> {_("Tournaments")}</Link></h3>
-                        <TournamentList />
+                            <h3><Link to="/tournaments"><i className="fa fa-trophy"></i> {_("Tournaments")}</Link></h3>
+                            <TournamentList />
 
-                        <h3><Link to="/ladders"><i className="fa fa-list-ol"></i> {_("Ladders")}</Link></h3>
-                        <LadderList />
+                            <h3><Link to="/ladders"><i className="fa fa-list-ol"></i> {_("Ladders")}</Link></h3>
+                            <LadderList />
 
-                        <h3><Link to="/groups"><i className="fa fa-users"></i> {_("Groups")}</Link></h3>
-                        <GroupList />
+                            <h3><Link to="/groups"><i className="fa fa-users"></i> {_("Groups")}</Link></h3>
+                            <GroupList />
 
-                        <h3><Link to="/chat"><i className="fa fa-comment-o"></i> {_("Chat with friends")}</Link></h3>
-                        <FriendList />
+                            <h3><Link to="/chat"><i className="fa fa-comment-o"></i> {_("Chat with friends")}</Link></h3>
+                            <FriendList />
+                        </div>
                     </div>
-
-                </div>
+                }
             </div>
         </div>
     );

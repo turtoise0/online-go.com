@@ -16,16 +16,18 @@
  */
 
 import * as React from "react";
-import {Link} from "react-router-dom";
-import {browserHistory} from "ogsHistory";
 import * as data from "data";
-import {_} from "translate";
-import {Card} from "material";
-import {LineText} from "misc-ui";
-import {errorAlerter, ignore} from "misc";
-import {post} from "requests";
 import cached from 'cached';
-import {Md5} from 'ts-md5/dist/md5';
+import { Link } from "react-router-dom";
+import { browserHistory } from "ogsHistory";
+import { _ } from "translate";
+import { Card } from "material";
+import { LineText } from "misc-ui";
+import { errorAlerter, errorLogger, ignore } from "misc";
+import { post } from "requests";
+import { Md5 } from 'ts-md5/dist/md5';
+import { get } from "requests";
+
 
 window['Md5'] = Md5;
 declare var swal;
@@ -67,6 +69,14 @@ export function get_ebi() {
         console.error(e);
     }
     return bid + "." + screen_dims + "." + plugin_hash + "." + user_agent_hash + "." + tzoffset;
+}
+
+export function logout() {
+    get("/api/v0/logout").then((config) => {
+        data.set(cached.config, config);
+        window.location.href = '/';
+    })
+    .catch(errorLogger);
 }
 
 export class SignIn extends React.PureComponent<{}, any> {

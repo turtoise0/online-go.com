@@ -17,11 +17,13 @@
 
 
 .Game {
-    position: absolute;
-    top: below-navbar;
-    bottom: 0;
-    right: 0;
-    left: 0;
+    max-height: "calc(100vh - %s - 0.2rem)" % navbar-height;
+}
+
+#nav-left-flat, #nav-left-expanding {
+    .Game {
+        max-height: 100vh;
+    }
 }
 
 .outer-banner {
