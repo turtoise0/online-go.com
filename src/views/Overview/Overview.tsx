@@ -16,31 +16,33 @@
  */
 
 import * as React from "react";
-import {Link} from "react-router-dom";
-import {_, interpolate} from "translate";
-import {Card} from "material";
-import {GameList} from "GameList";
-import {createOpenChallenge} from "ChallengeModal";
-import {UIPush} from "UIPush";
-import {post, get, abort_requests_in_flight} from "requests";
-import {Goban} from "goban";
-import {toast} from "toast";
-import {Player} from "Player";
-import {PlayerIcon} from "PlayerIcon";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { _, interpolate } from "translate";
+import { Card } from "material";
+import { GameList } from "GameList";
+import { createOpenChallenge } from "ChallengeModal";
+import { UIPush } from "UIPush";
+import { post, get, abort_requests_in_flight } from "requests";
+import { Goban } from "goban";
+import { toast } from "toast";
+import { Player } from "Player";
+import { PlayerIcon } from "PlayerIcon";
 import online_status from "online_status";
 import * as data from "data";
 import cached from "cached";
 import * as preferences from "preferences";
-import {errorAlerter, ignore} from "misc";
-import {DismissableNotification} from "DismissableNotification";
-import {FriendList} from "FriendList";
-import {ChallengesList} from "./ChallengesList";
-import {EmailBanner} from "EmailBanner";
-import {SupporterGoals} from "SupporterGoals";
-import {ProfileCard} from "ProfileCard";
-import {notification_manager} from "Notifications";
-import {ActiveAnnouncements} from "Announcements";
-import {FabX, FabCheck} from "material";
+import { errorAlerter, ignore } from "misc";
+import { DismissableNotification } from "DismissableNotification";
+import { FriendList } from "FriendList";
+import { ChallengesList } from "./ChallengesList";
+import { EmailBanner } from "EmailBanner";
+import { SupporterGoals } from "SupporterGoals";
+import { ProfileCard } from "ProfileCard";
+import { notification_manager } from "Notifications";
+import { ActiveAnnouncements } from "Announcements";
+import { FabX, FabCheck } from "material";
+import { NavStylePicker } from "NavBar";
 
 
 
@@ -52,86 +54,76 @@ let UserRating = (props: {rating: number}) => {
 
 declare var ogs_missing_translation_count;
 
-export class Overview extends React.Component<{}, any> {
-    private static defaultTitle = "OGS";
-
-    constructor(props) {
-        super(props);
-
-        let show_translation_dialog = false;
-        try {
-            if (ogs_missing_translation_count > 0
-                && !preferences.get("translation-dialog-never-show")
-                && (Date.now() - preferences.get("translation-dialog-dismissed")) > 14 * 86400 * 1000) {
-                show_translation_dialog = true;
-            }
-        } catch (e) {
-            console.error(e);
+export function Overview():JSX.Element {
+    let defaultTitle = "OGS";
+    let show_translation_dialog_default = false;
+    try {
+        if (ogs_missing_translation_count > 0
+            && !preferences.get("translation-dialog-never-show")
+            && (Date.now() - preferences.get("translation-dialog-dismissed")) > 14 * 86400 * 1000) {
+            show_translation_dialog_default = true;
         }
-
-        this.state = {
-            user: data.get("config.user"),
-            overview: {
-                active_games: [],
-            },
-            show_translation_dialog: show_translation_dialog,
-            resolved: false,
-            boards_to_move_on: Object.keys(notification_manager.boards_to_move_on).length,
-        };
+    } catch (e) {
+        console.error(e);
     }
 
-    setTitle() {
-        let count = this.state.boards_to_move_on > 0 ? `(${this.state.boards_to_move_on}) ` : "";
-        window.document.title = `${count}${Overview.defaultTitle}`;
-    }
+    let [user, setUser] = useState(data.get("config.user"));
+    let [active_games, setActiveGames] = useState([]);
+    let [resolved, setResolved] = useState(false as boolean);
+    let [show_translation_dialog, setShowTranslationDialog] = useState(show_translation_dialog_default as boolean);
+    let [boards_to_move_on, setBoardsToMoveOn] = useState(Object.keys(notification_manager.boards_to_move_on).length);
 
-    setBoardsToMoveOn = (boardsToMoveOn) => {
-        this.setState({boards_to_move_on: boardsToMoveOn});
-    }
-
-    componentDidMount() {
-        this.setTitle();
-        notification_manager.event_emitter.on("turn-count", this.setBoardsToMoveOn);
-        data.watch("config.user", this.updateUser);
-        this.refresh().then(ignore).catch(ignore);
-    }
-
-    componentDidUpdate() {
-        this.setTitle();
-    }
-
-    updateUser = (user) => {
-        this.setState({"user": user});
-    }
-
-    refresh() {
+    function refresh() {
         abort_requests_in_flight("ui/overview");
-        return get("ui/overview").then((overview) => {
-            this.setState({"overview": overview, resolved: true});
+        get("ui/overview").then((overview) => {
+            setActiveGames(overview.active_games);
+            setResolved(true);
         }).catch((err) => {
-            this.setState({resolved: true});
+            setResolved(true);
             errorAlerter(err);
         });
     }
 
-    componentWillUnmount() {
-        abort_requests_in_flight("ui/overview");
-        notification_manager.event_emitter.off("turn-count", this.setBoardsToMoveOn);
-        window.document.title = Overview.defaultTitle;
-        data.unwatch("config.user", this.updateUser);
+    useEffect(refresh, []);
+    useEffect(() => {
+        data.watch("config.user", setUser);
+        return () => {
+            data.unwatch("config.user", setUser);
+        };
+    }, []);
+    useEffect(setTitle, [boards_to_move_on]);
+    useEffect(() => {
+        notification_manager.event_emitter.on("turn-count", setBoardsToMoveOn);
+        return () => {
+            notification_manager.event_emitter.off("turn-count", setBoardsToMoveOn);
+        };
+    }, []);
+
+
+    function setTitle() {
+        let count = boards_to_move_on > 0 ? `(${boards_to_move_on}) ` : "";
+        window.document.title = `${count}${defaultTitle}`;
     }
 
-    render() {
-        let user = this.state.user;
+    function dismissTranslationDialog(ev) {
+        preferences.set("translation-dialog-dismissed", Date.now());
+        setShowTranslationDialog(false);
+    }
 
-        return (
+    function neverShowTranslationDialog(ev) {
+        preferences.set("translation-dialog-never-show", true);
+        setShowTranslationDialog(false);
+    }
+
+
+    return (
         <div id="Overview-Container">
             <SupporterGoals />
             <div id="Overview">
                 <div className="left">
                     <EmailBanner />
                     <ActiveAnnouncements  />
-                    <ChallengesList onAccept={() => this.refresh()} />
+                    <ChallengesList onAccept={refresh} />
 
                     {((user && user.provisional) || null) &&
                         <DismissableNotification
@@ -142,15 +134,19 @@ export class Overview extends React.Component<{}, any> {
                         </DismissableNotification>
                     }
 
-                    {((this.state.resolved && this.state.overview.active_games.length) || null) &&
+                    {((user) || null) &&
+                        <NavStylePicker />
+                    }
+
+                    {((resolved && active_games.length) || null) &&
                         <div className="active-games">
-                            <h2>{_("Active Games")} ({this.state.overview.active_games.length})</h2>
-                            <GameList list={this.state.overview.active_games} player={user}
+                            <h2>{_("Active Games")} ({active_games.length})</h2>
+                            <GameList list={active_games} player={user}
                                 emptyMessage={_("You're not currently playing any games. Start a new game with the \"Create a new game\" or \"Look for open games\" buttons above.")}
                             />
                         </div>
                     }
-                    {((this.state.resolved && this.state.overview.active_games.length === 0) || null) &&
+                    {((resolved && active_games.length === 0) || null) &&
                         <div className="no-active-games">
                             <div style={{"marginBottom": "1rem"}}>{_("You're not currently playing any games.")}</div>
                             <Link to="/play" className="btn primary">{_("Find a game")}</Link>
@@ -161,15 +157,15 @@ export class Overview extends React.Component<{}, any> {
                     <ProfileCard user={user} />
 
                     <div className="overview-categories">
-                        {this.state.show_translation_dialog &&
+                        {show_translation_dialog &&
                             <Card className="translation-dialog">
-                                <FabX onClick={this.dismissTranslationDialog} />
+                                <FabX onClick={dismissTranslationDialog} />
 
                                 <div>{_("Hello! Did you know that online-go.com is translated entirely volunteers in the Go community? Because of that, sometimes our translations get behind, like right now. In this language there are some missing translation strings. If you would like to help fix this, click the green button below, and thanks in advance!")}</div>
 
                                 <a className='btn success' href='https://translate.online-go.com/'>{_("I'll help translate!")}</a>
 
-                                <button className='btn xs never-show-this-message-button' onClick={this.neverShowTranslationDialog}>{_("Never show this message")}</button>
+                                <button className='btn xs never-show-this-message-button' onClick={neverShowTranslationDialog}>{_("Never show this message")}</button>
                             </Card>
                         }
 
@@ -189,22 +185,7 @@ export class Overview extends React.Component<{}, any> {
                 </div>
             </div>
         </div>
-        );
-    }
-
-    dismissTranslationDialog = (ev) => {
-        preferences.set("translation-dialog-dismissed", Date.now());
-        this.setState({
-            show_translation_dialog: false
-        });
-    }
-
-    neverShowTranslationDialog = (ev) => {
-        preferences.set("translation-dialog-never-show", true);
-        this.setState({
-            show_translation_dialog: false
-        });
-    }
+    );
 }
 
 export class GroupList extends React.PureComponent<{}, any> {
