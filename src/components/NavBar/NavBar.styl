@@ -18,6 +18,22 @@
 navbar-width= 17rem;
 
 
+#content-view {
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow-y: auto;
+    height: 100vh;
+    max-height: "calc(100vh - %s - 0.2rem)" % navbar-height;
+    display: flex;
+    align-items: stretch;
+    > div {
+        flex: 1;
+    }
+    > .Announcements {
+        flex: 0;
+    }
+}
+
 #nav-left-flat, #nav-left-expanding {
     display: flex;
     flex-direction: row;

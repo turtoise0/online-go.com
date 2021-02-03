@@ -16,11 +16,27 @@
  */
 
 
+
+.Joseki {
+    max-height: "calc(100vh - %s - 0.2rem)" % navbar-height;
+}
+
+#nav-left-flat, #nav-left-expanding {
+    .Joseki {
+        max-height: 100vh;
+    }
+}
+
+
+
+
 .Joseki {
     top: below-navbar;
+    /*
     bottom: 0;
     right: 0;
     left: 0;
+    */
 
     display: flex;
 
@@ -29,7 +45,7 @@
     }
     @media screen and (min-width: 801px) {
         flex-direction: row;
-        position: absolute;
+        //position: absolute;
     }
 
     align-items: stretch;
